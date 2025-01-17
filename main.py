@@ -29,7 +29,8 @@ from config import TELEGRAM_TOKEN, OPENAI_API_KEY, ADMINS
 logging.basicConfig(level=logging.INFO)
 
 # Инициализируем OpenAI
-client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+groq_client = groq.Groq(api_key=GROQ_API_KEY)
+
 openai.api_key = OPENAI_API_KEY
 
 # Разрешённые эмодзи
@@ -137,7 +138,7 @@ async def paraphrase_text(text: str) -> str:
     2) Удаляем последнюю строку (демонстрация)
     3) handle_reaction_emojis
     4) Проверяем, есть ли реакции -> формируем system_prompt
-    5) ChatGPT
+    5) Use Groq for paraphrasing
     """
     text = text.strip()
     if not text:
@@ -152,7 +153,6 @@ async def paraphrase_text(text: str) -> str:
     text = remove_hashtags(text)
     text = remove_urls(text)
 
-
     # 3) Заменяем недопустимые эмодзи
     text = handle_reaction_emojis(text)
 
@@ -160,14 +160,12 @@ async def paraphrase_text(text: str) -> str:
     has_reactions = has_reactions_in_last_3_lines(text, emogies)
     
     if has_reactions:
-        print(1)
         system_prompt = (
             "Ты — помощник, который перефразирует текст на русском языке. "
             "Сохраняй все эмодзи и их порядок, а также структуру абзацев. "
             "Реакции уже есть, не добавляй новых."
         )
     else:
-        print(2)
         system_prompt = (
             "Ты — помощник, который перефразирует текст на русском языке. "
             "Сохраняй все эмодзи и не меняй их порядок, а также структуру абзацев. "
@@ -182,10 +180,10 @@ async def paraphrase_text(text: str) -> str:
             "Только три разных эмодзи, обязательно из списка.\n"
         )
 
-    # 5) Запрос к ChatGPT
+    # 5) Запрос к Groq
     try:
-        response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+        response = groq_client.chat.completions.create(
+            model="grok",  # Assuming 'grok' is a model available on Groq, adjust if different
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": text},
@@ -195,7 +193,7 @@ async def paraphrase_text(text: str) -> str:
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
-        logging.error(f"Ошибка при обращении к OpenAI: {e}")
+        logging.error(f"Ошибка при обращении к Groq: {e}")
         return text
 
 # =========================
