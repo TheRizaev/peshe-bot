@@ -24,7 +24,7 @@ from aiogram.client.default import DefaultBotProperties
 # config.py должен содержать:
 # TELEGRAM_TOKEN, OPENAI_API_KEY, ADMINS = [...]
 # =========================
-from config import TELEGRAM_TOKEN, OPENAI_API_KEY, ADMINS
+from config import TELEGRAM_TOKEN, GROQ_API_KEY, ADMINS
 
 logging.basicConfig(level=logging.INFO)
 
