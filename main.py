@@ -8,7 +8,7 @@ import re
 import emoji
 import unicodedata
 import random
-
+import groq
 from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import Command
 from aiogram.types import (Message, CallbackQuery, BotCommand, MenuButtonCommands,
