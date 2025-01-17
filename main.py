@@ -31,7 +31,6 @@ logging.basicConfig(level=logging.INFO)
 # Инициализируем OpenAI
 groq_client = groq.Groq(api_key=GROQ_API_KEY)
 
-openai.api_key = OPENAI_API_KEY
 
 # Разрешённые эмодзи
 emogies = ["❤️","👍","👎","🤣","😢","🔥","🤬","🙏","😱"]
