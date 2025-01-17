@@ -174,7 +174,7 @@ async def paraphrase_text(text: str) -> str:
     # 5) Запрос к Groq
     try:
         response = groq_client.chat.completions.create(
-            model="grok",  # Assuming 'grok' is a model available on Groq, adjust if different
+            model="llama3-8b-8192"
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": text},
