@@ -1,3 +1,4 @@
 emoji
 aiogram
 openai
+groq
