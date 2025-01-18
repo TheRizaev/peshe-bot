@@ -115,15 +115,15 @@ def handle_reaction_emojis(text: str) -> str:
 
     return '\n'.join(lines)
 
-def has_reactions_in_last_3_lines(text: str, allowed_emojis=None) -> bool:
+def has_reactions_in_last_5_lines(text: str, allowed_emojis=None) -> bool:
     if not text or not allowed_emojis:
         return False
 
     lines = text.split('\n')
-    last_3 = lines[-3:] if len(lines) >= 3 else lines
+    last_5 = lines[-5:] if len(lines) >= 5 else lines
 
     pattern = r'^(' + '|'.join(map(re.escape, allowed_emojis)) + r')\s*[-—]\s+.+'
-    for line in last_3:
+    for line in last_5:
         if re.search(pattern, line.strip()):
             return True
     return False
