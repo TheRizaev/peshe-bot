@@ -156,7 +156,7 @@ async def paraphrase_text(text: str) -> str:
     text = handle_reaction_emojis(text)
 
     # 4) Проверяем, есть ли реакции
-    has_reactions = has_reactions_in_last_3_lines(text, emogies)
+    has_reactions = has_reactions_in_last_5_lines(text, emogies)
     
     if has_reactions:
         system_prompt = (
